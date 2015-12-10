@@ -9,9 +9,9 @@ A utility module that does one thing: deletes all the objects in an Islandora co
 
 ## Usage
 
-The Islandora Bulk Deleter provides two drush commands. There is no graphical user interface. It tells you how many objects it is going to delete, and prompts you to make sure you want to go ahead. If you say 'y', it does to the resulting objects what a chainsaw does to the branches of a tree. If you say 'n', drush exits without doing anything. Chainsaw returns to idle with the safety on.
+The Islandora Bulk Deleter provides two drush commands. There is no graphical user interface. When you run the command, it tells you how many objects it is going to delete, and prompts you to make sure you want to go ahead. If you say 'y', it does to the resulting objects what a chainsaw does to the branches of a tree. If you say 'n', drush exits without doing anything. The chainsaw returns to idle with the safety on.
 
-To delete objects created with module (to purge them, to use FedoraCommons' terminology), issue a command with one of the following templates:
+To delete objects (to purge them, to use FedoraCommons' terminology), issue a command with one of the following templates:
 
 `drush iChainsaw --user=someuser --collection=bar:collection`
 `drush iChainsaw --user=someuser --content_model=foo:contentModel --collection=bar:collection`
