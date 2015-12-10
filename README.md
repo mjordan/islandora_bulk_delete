@@ -23,7 +23,10 @@ The specified collection (or newspaper) object is not deleted. For newspaper iss
 
 The `--content_model` parameter is optional, and provides the only way to limit the scope of the carnage. If you include it, only objects in the specified collection of the specified content type will be deleted. The `--user` needs to have Drupal permission to "Permanently remove objects from the repository." The values of all options other than `--user` are PIDs.
 
-Newspapers are a special case. If you only want to delete all the issues (and their pages) within a specific newspaper, use the `--newspaper` option. If you want to delete all the newspapers (and their issues and pages) in a collection, use the regular `--collection` option.
+Newspapers are a special case:
+
+* If you only want to delete all the issues (and their pages) within a specific newspaper, use the `--newspaper` option.
+* If you want to delete all the newspapers (and their issues and pages) in a collection, use the regular `--collection` option.
 
 ## Maintainer
 

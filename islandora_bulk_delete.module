@@ -89,6 +89,7 @@ function islandora_bulk_delete_get_descendents($pid, $cmodel) {
       $issue_page_keys = array_keys($issue_pages);
       $all_descendent_pids = array_merge($all_descendent_pids, $issue_page_keys);
     }
+    $all_descendent_pids = array_merge($all_descendent_pids, $issue_keys);
     return $all_descendent_pids;
   }
 }

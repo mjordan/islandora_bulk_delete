@@ -67,7 +67,7 @@ function drush_islandora_bulk_delete_delete() {
     else {
       $collection_object = islandora_object_load(drush_get_option('collection'));
       $collection_cmodels = $collection_object->models;
-      if ($collection_models[0] != 'islandora:collectionCModel') {
+      if ($collection_cmodels[0] != 'islandora:collectionCModel') {
         drush_set_error('IBD_IS_NOT_COLLECTION',
           dt('The specified collection object (!collection) does not have a content model of islandora:collectionCModel.',
           array('!collection' => drush_get_option('collection'))));
@@ -98,7 +98,7 @@ function drush_islandora_bulk_delete_delete() {
     else {
       $newspaper_object = islandora_object_load(drush_get_option('newspaper'));
       $newspaper_cmodels = $newspaper_object->models;
-      if ($collection_models[0] != 'islandora:newspaperCModel') {
+      if ($newspaper_cmodels[0] != 'islandora:newspaperCModel') {
         drush_set_error('IBD_IS_NOT_NEWSPAPER',
           dt('The specified newspaper object (!newspaper) does not have a content model of islandora:newspaperCModel.',
           array('!newspaper' => drush_get_option('newspaper'))));
@@ -133,22 +133,24 @@ function drush_islandora_bulk_delete_delete() {
       // Delete the object's descendents if there are any.
       if (count($descendent_pids)) {
         foreach ($descendent_pids as $d_pid) {
-          $d_object = islandora_object_load($d_pid);
-          if (islandora_delete_object($d_object)) {
-            drush_print(t('Deleted !pid', array('!pid' => $d_pid)));
-          }
-          else {
-            drush_print(t('Failed to delete object !pid', array('!pid' => $d_pid)));
+          if ($d_object = islandora_object_load($d_pid)) {
+            if (islandora_delete_object($d_object)) {
+              drush_print(t('Deleted !pid', array('!pid' => $d_pid)));
+            }
+            else {
+              drush_print(t('Failed to delete object !pid', array('!pid' => $d_pid)));
+            }
           }
         }
       }
-
       // Then delete the parent objects from the Solr query.
-      if (islandora_delete_object($object)) {
-        drush_print(t('Deleted !pid', array('!pid' => $pid)));
-      }
-      else {
-        drush_print(t('Failed to delete object !pid', array('!pid' => $pid)));
+      if (islandora_object_load($object->id)) {
+        if (islandora_delete_object($object)) {
+          drush_print(t('Deleted !pid', array('!pid' => $pid)));
+        }
+        else {
+          drush_print(t('Failed to delete object !pid', array('!pid' => $pid)));
+        }
       }
     }
   }
