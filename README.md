@@ -9,11 +9,11 @@ A utility module that does one thing: deletes all the objects in an Islandora co
 
 ## Usage
 
-There is no graphical user interface for this module. It only provides one drush command.
+There is no graphical user interface for this module. It only provides one drush command, `drush islandora_bulk_delete_delete`, or `drush iChainsaw` for short.
 
-When you run the command, it tells you how many objects it is going to delete, and prompts you to make sure you want to go ahead. If you say 'y', it does to the resulting objects what a chainsaw does to the branches of a tree. If you say 'n', drush exits without doing anything. The chainsaw returns to idle with the safety on.
+When you run the command, it tells you how many objects it is going to delete, and prompts you to make sure you want to go ahead. If you say 'y', it does to the resulting objects what a chainsaw does to the branches of a tree. If you say 'n', drush exits without doing anything.
 
-However, if you include the `--list` option, the objects are only listed and not deleted. The `--list` option does not take a value, unlike the other options described below.
+However, there is a safety switch on this chainsaw. If you include the `--list` option, the objects are only listed and not deleted. The `--list` option does not take a value, unlike the other options described below.
 
 To delete objects (to purge them, to use FedoraCommons' terminology), issue a command with one of the following templates:
 
@@ -21,9 +21,9 @@ To delete objects (to purge them, to use FedoraCommons' terminology), issue a co
 `drush iChainsaw --user=admin --collection=bar:collection --content_model=foo:contentModel --namespace=baz --list`
 `drush iChainsaw --user=admin --newspaper=sleazy:tabloid`
 
-The specified collection (or newspaper) object is not deleted. For newspaper issues and book objects, all associated page objects will also be deleted.
+The `--content_model` and `--namespace` parameters are optional, and provide two ways to limit the set of objects within a collection to be deleted. If you include them, only objects in the specified collection of the specified content type and/or having the specified namespace will be deleted. The `--user` needs to have Drupal permission to "Permanently remove objects from the repository." The values of the `--collection` and `--content_model` options are PIDs.
 
-The `--content_model` and `--namespace` parameters are optional, and provide two ways to limit the set of objects within a collection to be deleted. If you include them, only objects in the specified collection of the specified content type and/or having the specified namespace will be deleted. The `--user` needs to have Drupal permission to "Permanently remove objects from the repository." The values of all options other than `--user` are PIDs.
+The specified collection (or newspaper) object is not deleted. For newspaper issues and book objects, all associated page objects are deleted. Please note that an object is deleted even if it is in another collection. It is not simply removed from the current collection.
 
 Newspapers are a special case:
 
