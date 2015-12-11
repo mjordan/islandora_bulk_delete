@@ -24,6 +24,9 @@ function islandora_bulk_delete_drush_command() {
       'namespace' => array(
         'description' => 'The namespace of the objects to purge.',
       ),
+      'list' => array(
+        'description' => 'List but do not purge the objects.',
+      ),
       'collection' => array(
         'description' => 'The collection from which to purge the objects. ' .
         'Note: objects are purged from the repository, not just removed ' .
@@ -126,10 +129,22 @@ function drush_islandora_bulk_delete_delete() {
     drupal_exit();
   }
 
-  // Prompt the user before starting the chainsaw.
-  if (drush_confirm(dt('!num_objects objects found. Are you absolutely sure you want to continue?',
-    array('!num_objects' => count($pids))))) {
-    drush_print('OK, deleting all those objects and any pages that are attached.');
+  // Prompt the user.
+  if (drush_get_option('list')) {
+    $mode = 'listed only and not deleted';
+  }
+  else {
+    $mode = 'deleted. This action is not reversible';
+  }
+  if (drush_confirm(dt("!num_objects objects found. Are you sure you want to continue? If you respond 'y', the objects will be !mode.",
+    array('!num_objects' => count($pids), '!mode' => $mode)))) {
+    if (drush_get_option('list')) {
+      drush_print('OK, listing (not deleting) all those objects and any pages that are attached.');
+    }
+    else {
+      drush_print('OK, deleting all those objects and any pages that are attached.');
+    }
+
     // Cycle through the objects.
     foreach ($pids as $pid) {
       $object = islandora_object_load($pid);
@@ -140,22 +155,32 @@ function drush_islandora_bulk_delete_delete() {
       if (count($descendent_pids)) {
         foreach ($descendent_pids as $d_pid) {
           if ($d_object = islandora_object_load($d_pid)) {
-            if (islandora_delete_object($d_object)) {
-              drush_print(t('Deleted !pid', array('!pid' => $d_pid)));
+            if (drush_get_option('list')) {
+              drush_print(t('!pid', array('!pid' => $pid)));
             }
             else {
-              drush_print(t('Failed to delete object !pid', array('!pid' => $d_pid)));
+              if (islandora_delete_object($d_object)) {
+                drush_print(t('Deleted !pid', array('!pid' => $d_pid)));
+              }
+              else {
+                drush_print(t('Failed to delete object !pid', array('!pid' => $d_pid)));
+              }
             }
           }
         }
       }
       // Then delete the parent objects from the Solr query.
       if (islandora_object_load($object->id)) {
-        if (islandora_delete_object($object)) {
-          drush_print(t('Deleted !pid', array('!pid' => $pid)));
+        if (drush_get_option('list')) {
+          drush_print(t('!pid', array('!pid' => $pid)));
         }
         else {
-          drush_print(t('Failed to delete object !pid', array('!pid' => $pid)));
+          if (islandora_delete_object($object)) {
+            drush_print(t('Deleted !pid', array('!pid' => $pid)));
+          }
+          else {
+            drush_print(t('Failed to delete object !pid', array('!pid' => $pid)));
+          }
         }
       }
     }

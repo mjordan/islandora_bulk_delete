@@ -1,4 +1,4 @@
-# Islandora Bulk Deleter
+ Islandora Bulk Deleter
 
 A utility module that does one thing: deletes all the objects in an Islandora collection (or optionally, all issues and pages in a newspaper object). Use this tool carefully. It is dangerous.
 
@@ -13,10 +13,12 @@ There is no graphical user interface for this module. It only provides one drush
 
 When you run the command, it tells you how many objects it is going to delete, and prompts you to make sure you want to go ahead. If you say 'y', it does to the resulting objects what a chainsaw does to the branches of a tree. If you say 'n', drush exits without doing anything. The chainsaw returns to idle with the safety on.
 
+However, if you include the `--list` option, the objects are only listed and not deleted. The `--list` option does not take a value, unlike the other options described below.
+
 To delete objects (to purge them, to use FedoraCommons' terminology), issue a command with one of the following templates:
 
 `drush iChainsaw --user=admin --collection=bar:collection`
-`drush iChainsaw --user=admin --collection=bar:collection --content_model=foo:contentModel --namespace=baz`
+`drush iChainsaw --user=admin --collection=bar:collection --content_model=foo:contentModel --namespace=baz --list`
 `drush iChainsaw --user=admin --newspaper=sleazy:tabloid`
 
 The specified collection (or newspaper) object is not deleted. For newspaper issues and book objects, all associated page objects will also be deleted.
