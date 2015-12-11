@@ -21,6 +21,9 @@ function islandora_bulk_delete_drush_command() {
       'content_model' => array(
         'description' => 'The content model of the objects to purge.',
       ),
+      'namespace' => array(
+        'description' => 'The namespace of the objects to purge.',
+      ),
       'collection' => array(
         'description' => 'The collection from which to purge the objects. ' .
         'Note: objects are purged from the repository, not just removed ' .
@@ -82,6 +85,9 @@ function drush_islandora_bulk_delete_delete() {
     if (drush_get_option('content_model')) {
       $query .= '%20AND%20RELS_EXT_hasModel_uri_t:%22' .
         drush_get_option('content_model') . '%22';
+    }
+    if (drush_get_option('namespace')) {
+      $query .= '%20AND%20PID:' . drush_get_option('namespace') . '\:*&defType=edismax';
     }
   }
 

@@ -16,12 +16,12 @@ When you run the command, it tells you how many objects it is going to delete, a
 To delete objects (to purge them, to use FedoraCommons' terminology), issue a command with one of the following templates:
 
 `drush iChainsaw --user=admin --collection=bar:collection`
-`drush iChainsaw --user=admin --content_model=foo:contentModel --collection=bar:collection`
-`drush iChainsaw --user=admin --newspaper=some:rag`
+`drush iChainsaw --user=admin --collection=bar:collection --content_model=foo:contentModel --namespace=baz`
+`drush iChainsaw --user=admin --newspaper=sleazy:tabloid`
 
 The specified collection (or newspaper) object is not deleted. For newspaper issues and book objects, all associated page objects will also be deleted.
 
-The `--content_model` parameter is optional, and provides the only way to limit the scope of the carnage. If you include it, only objects in the specified collection of the specified content type will be deleted. The `--user` needs to have Drupal permission to "Permanently remove objects from the repository." The values of all options other than `--user` are PIDs.
+The `--content_model` and `--namespace` parameters are optional, and provide two ways to limit the set of objects within a collection to be deleted. If you include them, only objects in the specified collection of the specified content type and/or having the specified namespace will be deleted. The `--user` needs to have Drupal permission to "Permanently remove objects from the repository." The values of all options other than `--user` are PIDs.
 
 Newspapers are a special case:
 
