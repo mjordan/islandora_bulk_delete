@@ -9,8 +9,8 @@ A utility module that does one thing: deletes all the objects in an Islandora co
 
 ## Installation
 
-`git clone https://github.com/mjordan/islandora_bulk_delete.git`
-`drush en -y islandora_bulk_delete`
+1. `git clone https://github.com/mjordan/islandora_bulk_delete.git`
+2. `drush en -y islandora_bulk_delete`
 
 ## Usage
 
