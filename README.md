@@ -7,6 +7,11 @@ A utility module that does one thing: deletes all the objects in an Islandora co
 * [Islandora Solr Search](https://github.com/Islandora/islandora_solr_search)
 * [Islandora Paged Content](https://github.com/Islandora/islandora_paged_content) if you want to delete books, newspapers, or newspaper issues.
 
+## Installation
+
+`git clone https://github.com/mjordan/islandora_bulk_delete.git`
+`drush en -y islandora_bulk_delete`
+
 ## Usage
 
 There is no graphical user interface for this module. It only provides one drush command, `drush islandora_bulk_delete_delete`, or `drush iChainsaw` for short.
