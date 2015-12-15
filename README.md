@@ -1,4 +1,4 @@
- Islandora Bulk Deleter
+# Islandora Bulk Deleter
 
 A utility module that does one thing: deletes all the objects in an Islandora collection (or optionally, all issues and pages in a newspaper object). Use this tool carefully. It is dangerous.
 
@@ -22,9 +22,9 @@ However, there is a safety switch on this chainsaw. If you include the `--list` 
 
 To delete objects (to purge them, to use FedoraCommons' terminology), issue a command with one of the following templates:
 
-`drush iChainsaw --user=admin --collection=bar:collection`
-`drush iChainsaw --user=admin --collection=bar:collection --content_model=foo:contentModel --namespace=baz --list`
-`drush iChainsaw --user=admin --newspaper=sleazy:tabloid`
+* `drush iChainsaw --user=admin --collection=bar:collection`
+* `drush iChainsaw --user=admin --collection=bar:collection --content_model=foo:contentModel --namespace=baz --list`
+* `drush iChainsaw --user=admin --newspaper=sleazy:tabloid`
 
 The `--content_model` and `--namespace` parameters are optional, and provide two ways to limit the set of objects within a collection to be deleted. If you include them, only objects in the specified collection of the specified content type and/or having the specified namespace will be deleted. The `--user` needs to have Drupal permission to "Permanently remove objects from the repository." The values of the `--collection` and `--content_model` options are PIDs.
 
