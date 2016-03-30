@@ -147,6 +147,7 @@ function drush_islandora_bulk_delete_delete() {
 
     // Cycle through the objects.
     foreach ($pids as $pid) {
+      drupal_static_reset('islandora_get_tuque_connection');
       $object = islandora_object_load($pid);
       $cmodels = $object->models;
       // Get the current object's descendents. Assumes one content model.
