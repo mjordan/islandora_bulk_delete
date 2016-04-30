@@ -53,13 +53,6 @@ function drush_islandora_bulk_delete_delete() {
     exit;
   }
 
-  // Check that either a collection or a newspaperr is specified.
-  if (!drush_get_option('collection')  && !drush_get_option('newspaper')) {
-    drush_set_error('IBD_OPTIONS_REQUIRED',
-      dt('Sorry, you need to specify a collection PID with --collection or a newspaper PID with --newspaper.'));
-    exit;
-  }
-
   // If applicable, confirm the specified collection object exists and
   // is accessible; if it's not, exit with an error. Also confirm that the
   // object has the expected content model.
@@ -94,7 +87,7 @@ function drush_islandora_bulk_delete_delete() {
     }
   }
 
-  // If applicable, confirm the specified collection object exists and
+  // If applicable, confirm the specified newspaper object exists and
   // is accessible; if it's not, exit with an error. Also confirm that the
   // object has the expected content model.
   if (drush_get_option('newspaper')) {
@@ -119,6 +112,14 @@ function drush_islandora_bulk_delete_delete() {
     $object = $newspaper_object;
     $query = 'RELS_EXT_isMemberOf_uri_t:%22' .
       drush_get_option('newspaper') . '%22';
+  }
+
+  // If no collection or newspaper was specified, make the query use
+  // namespace only.
+  if (!drush_get_option('collection')  && !drush_get_option('newspaper')) {
+    if (drush_get_option('namespace')) {
+      $query .= 'PID:' . drush_get_option('namespace') . '\:*&defType=edismax';
+    }
   }
 
   // Get the PIDs from theh Solr query.
