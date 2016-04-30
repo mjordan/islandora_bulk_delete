@@ -14,8 +14,8 @@ function islandora_bulk_delete_drush_command() {
     'aliases' => array('iChainsaw'),
     'description' => 'Delete (purge) Islandora objects, including child pages for books and newspaper issues.',
     'examples' => array(
-      'drush ibd --user=admin --collection=islandora:sp_basic_image_collection',
-      'drush ibd --user=admin --content_model=islandora:sp_basic_image --collection=islandora:sp_basic_image_collection',
+      'drush iChainsaw --user=admin --collection=islandora:sp_basic_image_collection',
+      'drush iChainsaw --user=admin --content_model=islandora:sp_basic_image --collection=islandora:sp_basic_image_collection',
     ),
     'options' => array(
       'content_model' => array(
