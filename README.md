@@ -39,7 +39,7 @@ islanodra:1120
 islandora:6
 ```
 
-and issued the command `drush iChainsaw --user=admin --pid_file=.tmp/mypidfile.txt`, objects with those three PIDs would be deleted. The only other option you can use in conjuction with `--pid_file` is `--list`, which will just list the PIDs named in your file.
+and issued the command `drush iChainsaw --user=admin --pid_file=/tmp/mypidfile.txt`, objects with those three PIDs would be deleted. The only other option you can use in conjuction with `--pid_file` is `--list`, which will just list the PIDs named in your file the same way it does if you use one of the query options.
 
 Newspapers are a special case:
 
