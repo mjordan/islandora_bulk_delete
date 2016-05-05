@@ -31,6 +31,16 @@ The `--collection`, `--content_model` and `--namespace` parameters are optional,
 
 The specified collection (or newspaper) object is not deleted, unless it has a namespace that is specified when only the `--namespace` option is used. For newspaper issues and book objects, all associated page objects are deleted. Please note that an object is deleted even if it is in another collection. It is not simply removed from the current collection.
 
+If you have a list of PIDs you want to delete, you can use the `--pid_file` instead of the other options. The value of `--pid_file` should be the absolute path to a text file containing one PID per row. Lines that start with a `#` or `//` are ignored. For example, if you had a PID file at `/tmp/mypidfile.txt` that contained the following:
+
+```
+islandora:1000
+islanodra:1120
+islandora:6
+```
+
+and issued the command `drush iChainsaw --user=admin --pid_file=.tmp/mypidfile.txt`, objects with those three PIDs would be deleted. The only other option you can use in conjuction with `--pid_file` is `--list`, which will just list the PIDs named in your file.
+
 Newspapers are a special case:
 
 * If you only want to delete all the issues (and their pages) within a specific newspaper, use the `--newspaper` option.
