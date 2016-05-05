@@ -37,6 +37,9 @@ function islandora_bulk_delete_drush_command() {
         'Note: issue objects and associated pages are purged from the repository, ' .
         'not just removed from the newspaper.',
       ),
+      'pid_file' => array(
+        'description' => 'Absolute path to a file containing PIDs of objects to delete, one PID per line.',
+      ),
     ),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_LOGIN,
   );
@@ -124,6 +127,17 @@ function drush_islandora_bulk_delete_delete() {
 
   // Get the PIDs from theh Solr query.
   $pids = islandora_bulk_delete_query_solr($query);
+
+  // Check to see if there is a PID file and if there is, use the PIDs
+  // from it instead of from Solr.
+  if (drush_get_option('pid_file')) {
+    $pid_file_path = drush_get_option('pid_file');
+    if (!file_exists($pid_file_path)) {
+      drush_print(t("The PID file !pid_file doesn't exist", array('!pid_file' => $pid_file_path)));
+      drupal_exit();
+    }
+    $pids = islandora_bulk_delete_read_pid_file($pid_file_path);
+  }
 
   if (!count($pids) || !$pids) {
     drush_print('There are no matching objects to delete.');

@@ -96,3 +96,32 @@ function islandora_bulk_delete_get_descendents($pid, $cmodel) {
     return $all_descendent_pids;
   }
 }
+
+/**
+ * Returns a list of PIDs from a PID file.
+ *
+ * @param string $pid_file_path
+ *   The absolute path to the PID file.
+ *
+ * @return array
+ *   A list of PIDs.
+ */
+function islandora_bulk_delete_read_pid_file($pid_file_path) {
+  if (!file_exists($pid_file_path)) {
+    drush_set_error('PID_FILE_NOT_FOUND',
+    dt('The specified PID file (!pid_file) does not exist.',
+      array('!pid_file' => $pid_file_path)));
+    drupal_exit();
+  }
+
+  $pids = array();
+  $lines = file($pid_file_path);
+  foreach ($lines as $pid) {
+    $pid = trim($pid);
+    // Skip commented out rows.
+    if (!preg_match('!(#|//)!', $pid)) {
+      $pids[] = $pid;
+    }
+  }
+  return $pids;
+}
