@@ -26,15 +26,17 @@ To delete objects (to purge them, to use FedoraCommons' terminology), issue a co
 * `drush iChainsaw --user=admin --collection=bar:collection --content_model=foo:contentModel --namespace=baz --list`
 * `drush iChainsaw --user=admin --newspaper=sleazy:tabloid`
 * `drush iChainsaw --user=admin --namespace=mistaken:load`
+* `drush iChainsaw --user=admin --pid_file=/tmp/mypidfile.txt`
 
 The `--collection`, `--content_model` and `--namespace` parameters are optional, and provide two ways to limit the set of objects to be deleted. If you include them, only objects in the specified collection of the specified content type and/or having the specified namespace will be deleted. The `--user` needs to have Drupal permission to "Permanently remove objects from the repository." The values of the `--collection` and `--content_model` options are PIDs.
 
 The specified collection (or newspaper) object is not deleted, unless it has a namespace that is specified when only the `--namespace` option is used. For newspaper issues and book objects, all associated page objects are deleted. Please note that an object is deleted even if it is in another collection. It is not simply removed from the current collection.
 
-If you have a list of PIDs you want to delete, you can use the `--pid_file` instead of the other options. The value of `--pid_file` should be the absolute path to a text file containing one PID per row. Lines that start with a `#` or `//` are ignored. For example, if you had a PID file at `/tmp/mypidfile.txt` that contained the following:
+If you have a list of PIDs you want to delete, you can use `--pid_file` instead of the other options. The value of `--pid_file` should be the absolute path to a text file containing one PID per row. Lines that start with a `#` or `//` are ignored. For example, if you had a PID file at `/tmp/mypidfile.txt` that contained the following:
 
 ```
 islandora:1000
+# This line is ignored.
 islanodra:1120
 islandora:6
 ```
