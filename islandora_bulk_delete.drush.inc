@@ -185,7 +185,7 @@ function drush_islandora_bulk_delete_delete() {
         foreach ($descendent_pids as $d_pid) {
           if ($d_object = islandora_object_load($d_pid)) {
             if (drush_get_option('list')) {
-              drush_print(t('!pid', array('!pid' => $pid)));
+              drush_print(t('!pid', array('!pid' => $d_pid)));
             }
             else {
               if (islandora_delete_object($d_object)) {
