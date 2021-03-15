@@ -21,6 +21,10 @@ function islandora_bulk_delete_drush_command() {
       'content_model' => array(
         'description' => 'The content model of the objects to purge.',
       ),
+      'content_model_field' => array(
+        'description' => 'The solr field containing the content model. ' .
+        'Defaults to RELS_EXT_hasModel_uri_t if not provided.',
+      ),
       'namespace' => array(
         'description' => 'The namespace of the objects to purge.',
       ),
@@ -32,10 +36,19 @@ function islandora_bulk_delete_drush_command() {
         'Note: objects are purged from the repository, not just removed ' .
         'from the collection.',
       ),
+      'collection_field' => array(
+        'description' => 'The solr field containing collection membership. ' .
+        'Defaults to RELS_EXT_isMemberOfCollection_uri_t if not provided.',
+      ),
       'newspaper' => array(
         'description' => 'The newspaper from which to purge issues. ' .
         'Note: issue objects and associated pages are purged from the repository, ' .
         'not just removed from the newspaper.',
+      ),
+      'newspaper_issue_field' => array(
+        'description' => 'The solr field containing the newspaper in which ' .
+        'issues have membership. ' .
+        'Defaults to RELS_EXT_isMemberOf_uri_t if not provided.',
       ),
       'pid_file' => array(
         'description' => 'Absolute path to a file containing PIDs of objects to delete, one PID per line.',
@@ -79,10 +92,10 @@ function drush_islandora_bulk_delete_delete() {
     // OK, everything checks out, so we are ready to build up the Solr query
     // to get the collection's members.
     $object = $collection_object;
-    $query = 'RELS_EXT_isMemberOfCollection_uri_t:%22' .
+    $query = drush_get_option('collection_field','RELS_EXT_isMemberOfCollection_uri_t') . ':%22' .
        drush_get_option('collection') . '%22';
     if (drush_get_option('content_model')) {
-      $query .= '%20AND%20RELS_EXT_hasModel_uri_t:%22' .
+      $query .= '%20AND%20' . drush_get_option('content_model_field','RELS_EXT_hasModel_uri_t'). ':%22' .
         drush_get_option('content_model') . '%22';
     }
     if (drush_get_option('namespace')) {
@@ -113,7 +126,7 @@ function drush_islandora_bulk_delete_delete() {
     // OK, everything checks out, so we are ready to build up the Solr query
     // to get the newspaper's issues.
     $object = $newspaper_object;
-    $query = 'RELS_EXT_isMemberOf_uri_t:%22' .
+    $query = drush_get_option('newspaper_issue_field','RELS_EXT_isMemberOf_uri_t') . ':%22' .
       drush_get_option('newspaper') . '%22';
   }
 
@@ -172,7 +185,7 @@ function drush_islandora_bulk_delete_delete() {
         foreach ($descendent_pids as $d_pid) {
           if ($d_object = islandora_object_load($d_pid)) {
             if (drush_get_option('list')) {
-              drush_print(t('!pid', array('!pid' => $pid)));
+              drush_print(t('!pid', array('!pid' => $d_pid)));
             }
             else {
               if (islandora_delete_object($d_object)) {
